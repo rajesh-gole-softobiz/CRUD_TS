@@ -15,7 +15,7 @@ const Header = () => {
         <Button variant="contained" component={Link} to={"/dashboard"}>
           Home
         </Button>
-        <Button variant="outlined" component={Link} to={"/adduser/:id"}>
+        <Button variant="outlined" component={Link} to={"/adduser"}>
           Add User
         </Button>
         <Button variant="outlined" component={Link} to={"/all-users"}>

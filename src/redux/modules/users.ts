@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const { get } = require("superagent");
 const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 // const { createAsyncThunk } = require("@reduxjs/toolkit");
@@ -9,35 +11,44 @@ const { createSlice, createAsyncThunk } = require("@reduxjs/toolkit");
 // import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 // import { get } from 'superagent'
 
-
-export const fetchUsers = createAsyncThunk("all-users", async (data: any={}) => {
-  const response:any = await get("http://localhost:3009/userDetails");
+//View User
+export const fetchUsers = createAsyncThunk("users/all-users", async (data: any={}) => {
+  const response:any = await get("http://localhost:3009/users");
   return response.body;
 });
+
+//Add User
+export const addUser = createAsyncThunk("users/addUser", async (data:object)=>{
+  const response:any = await axios.post("http://localhost:3009/users",data);
+  return response.data;
+})
+
+//Delete User
+export const deleteUser = createAsyncThunk("users/deleteUser", async (id:any)=>{
+  const response: any = await axios.delete(`http://localhost:3009/users/${id}`)
+})
+
+//Edit User
+export const editUser = createAsyncThunk("users/editUser", async (data:any)=>{
+  const response: any = await axios.put(`http://localhost:3009/users/${data.id}`, data.values);
+  return response.data
+})
+
 export interface IState {
-  user: any[],
-  // loading: boolean,
-  // error: string | null
+  users: any[],
+  loading: boolean,
+  error: string | null
 }
 const initialUsers:IState = {
-    user: [],
-    // loading: false,
-    // error: null
+    users: [],
+    loading: false,
+    error: null
 };
 
 export const usersSlice = createSlice({
-  name: "user",
+  name: "users",
   initialState: initialUsers,
-  reducers: {
-    // showUsers: (state) => state,
-    // addUser: (state, action) => {
-    //   state.users.push(action.payload);
-    // },
-    // deleteUser: (state, action) => {
-    //   const id = action.payload;
-    //   state.users = state.users.filter((user) => user.id !== id);
-    // },
-  },
+  reducers: {},
   extraReducers: (builder:any) => {
     // Add reducers for additional action types here, and handle loading state as needed
     builder.addCase(fetchUsers.pending, (state:any, action:any) => {
@@ -45,7 +56,7 @@ export const usersSlice = createSlice({
     });
     builder.addCase(fetchUsers.fulfilled, (state:any, action:any) => {
       state.loading = false;
-      state.user = action.payload;
+      state.users = action.payload;
     });
     builder.addCase(fetchUsers.rejected, (state:any, action:any) => {
       console.log("error");

@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 // import { deleteUser, fetchUsers } from "../../redux/UserSlice";
 import { Pagination } from "@mui/material";
-import { fetchUsers } from "../../redux/modules/user";
+import { fetchUsers } from "../../redux/modules/users";
 import { AppDispatch, RootState } from "../../redux/configureStore";
 
 const UserView = () => {
@@ -42,7 +42,7 @@ const UserView = () => {
 
   //  const users = useSelector((state) => state.usersReducer.users);
   //  console.log("users", users);
-  const [users, setUsers] = useState([]);
+  //   const [users, setUsers] = useState([]);
   const [noOfUsers, setNoOfUsers] = useState(0);
   const [rows, setRows] = useState([]);
   const [searched, setSearched] = useState("");
@@ -51,8 +51,8 @@ const UserView = () => {
   const [pageSize, setPageSize] = useState(4);
   const [page, setPage] = useState(1);
   const [orderDirection, setOrderDirection] = useState("asc");
-  const { user } = useSelector((state: RootState) => ({
-    user: state?.user,
+  const { users } = useSelector((state: RootState) => ({
+    users: state.users,
   }));
 
   const handlePage = (page: any) => setPage(page);
@@ -104,7 +104,7 @@ const UserView = () => {
     sortData(rows, orderDirection);
     setOrderDirection(orderDirection === "asc" ? "desc" : "asc");
   };
-  console.log("user", user);
+  console.log("users", users);
 
   return (
     <div>
