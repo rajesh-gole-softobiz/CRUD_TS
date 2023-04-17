@@ -1,11 +1,13 @@
 import { ButtonGroup, Button } from "@mui/material";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    //    localStorage.removeItem("loggedin");
-    //    navigate("/login");
+    localStorage.removeItem("loggedin");
+    navigate("/login");
   };
   return (
     <div>
@@ -13,7 +15,7 @@ const Header = () => {
         <Button variant="contained" component={Link} to={"/dashboard"}>
           Home
         </Button>
-        <Button variant="outlined" component={Link} to={"/adduser"}>
+        <Button variant="outlined" component={Link} to={"/adduser/:id"}>
           Add User
         </Button>
         <Button variant="outlined" component={Link} to={"/all-users"}>
