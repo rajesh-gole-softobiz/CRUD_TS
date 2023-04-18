@@ -18,7 +18,7 @@ export const fetchUsers = createAsyncThunk("users/all-users", async (data: any={
 });
 
 //Add User
-export const addUser = createAsyncThunk("users/addUser", async (data:object)=>{
+export const addUser = createAsyncThunk("users/adduser", async (data:object)=>{
   const response:any = await axios.post("http://localhost:3009/users",data);
   return response.data;
 })

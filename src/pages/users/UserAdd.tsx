@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Grid, Paper, Button, Typography, TextField } from "@mui/material";
+import {
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Radio,
+  RadioGroup,
+} from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import { v4 as uuidv4 } from "uuid";
 // import moment from "moment";
-import { RootState } from "../../redux/configureStore";
+import { AppDispatch, RootState } from "../../redux/configureStore";
 import { addUser } from "../../redux/modules/users";
 const { v4: uuidv4 } = require("uuid");
 const { moment } = require("moment");
@@ -16,22 +26,25 @@ const UserAdd = () => {
   const btnStyle = { marginTop: 10 };
   const phoneRegExp = /^[2-9]{2}[0-9]{8}/;
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
   const [initialValues, setIntialvalues] = useState({
     id: "",
     name: "",
     email: "",
-    phone: "",
-    createdAt: "",
+    age: "",
+    gender: "",
+    description: "",
+    checkbox: "",
   });
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(3, "It's too short").required("Required"),
     email: Yup.string().email("Enter valid email").required("Required"),
-    phone: Yup.string()
-      .matches(phoneRegExp, "Enter valid Phone number")
-      .required("Required"),
+    age: Yup.number().min(1).max(150).required("Age Required"),
+    gender: Yup.string().required("Choose any option"),
+    description: Yup.string().required("Description is Required"),
+    checkbox: Yup.boolean().oneOf([true], "Please accept before submit"),
   });
   //   const numberofUsers = useSelector((state:RootState) => state.users.users.length);
   //   console.log("numberofUsers", numberofUsers);
@@ -41,20 +54,15 @@ const UserAdd = () => {
     const id = uuidv4();
     const name = values.name;
     const email = values.email;
-    const phone = values.phone;
-    const createdAt = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
+    const age = values.age;
+    const gender = values.gender;
+    const description = values.description;
+    const checkbox = values.checkbox;
 
-    const user = { id, name, email, phone, createdAt };
-    // fetch("http://localhost:3008/userDetails", {
-    //   method: "POST",
-    //   body: JSON.stringify(user),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Accept: "application/json",
-    //   },
-    // });
+    const user = { id, name, email, age, gender, description, checkbox };
 
     dispatch(addUser(user));
+    alert("New User Added");
     navigate("/all-users");
   };
   console.log("initialValues", initialValues);
@@ -96,11 +104,56 @@ const UserAdd = () => {
 
               <Field
                 as={TextField}
-                name="phone"
-                label="Phone Number"
+                name="age"
+                label="Age"
                 fullWidth
-                error={errors.phone && touched.phone}
-                helperText={<ErrorMessage name="phone" />}
+                error={errors.age && touched.age}
+                helperText={<ErrorMessage name="age" />}
+                required
+              />
+
+              <Field
+                as={RadioGroup}
+                name="gender"
+                label="Gender"
+                error={errors.gender && touched.gender}
+                helperText={<ErrorMessage name="gender" />}
+                required
+              >
+                <FormControlLabel
+                  value="female"
+                  control={<Radio />}
+                  label="Female"
+                />
+                <FormControlLabel
+                  value="male"
+                  control={<Radio />}
+                  label="Male"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </Field>
+
+              <Field
+                as={TextField}
+                name="description"
+                label="Description"
+                multiline
+                maxRows={4}
+                fullWidth
+                error={errors.description && touched.description}
+                helperText={<ErrorMessage name="description" />}
+                required
+              />
+              <Field
+                type="checkbox"
+                name="checkbox"
+                label="Accept"
+                error={errors.checkbox && touched.checkbox}
+                helperText={<ErrorMessage name="checkbox" />}
                 required
               />
 

@@ -20,7 +20,7 @@ const AppRoutes = () => {
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="/all-users" element={<UserView />} />
         <Route path="/edituser/:id" element={<UserEdit />} />
-        <Route path="/adduser/:id" element={<UserAdd />} />
+        <Route path="/adduser" element={<UserAdd />} />
         <Route path="*" element={<Error />} />
       </Route>
     </Routes>
