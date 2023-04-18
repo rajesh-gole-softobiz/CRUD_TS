@@ -108,7 +108,7 @@ const UserView = () => {
 
   return (
     <div>
-      <h2>List of Users : Total {noOfUsers}</h2>
+      {/* <h2>List of Users : Total {noOfUsers}</h2> */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>

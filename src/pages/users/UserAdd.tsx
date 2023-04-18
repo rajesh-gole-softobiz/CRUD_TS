@@ -117,7 +117,7 @@ const UserAdd = () => {
                 name="gender"
                 label="Gender"
                 error={errors.gender && touched.gender}
-                helperText={<ErrorMessage name="gender" />}
+                // helperText={<ErrorMessage name="gender" />}
                 required
               >
                 <FormControlLabel
